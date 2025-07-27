@@ -206,5 +206,6 @@ module.exports = {
   getAllInvoices,
   searchInvoices,
   getInvoiceById,
-  sendInvoiceOnWhatsApp
+  sendInvoiceOnWhatsApp,
+  createInvoiceValidators
 };
