@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 // ✅ Import controller functions
-const { register, login } = require('../Controllers/AuthController.js');
+const { register, login } = require('../Controllers/AuthController');
 
 // ✅ Import middlewares
-const verifyToken = require('../Middleware/verifyToken');
+const verifyToken = require('../Middleware/verifyToken.js');
 const IsAdmin = require('../Middleware/IsAdmin');
 
 // ✅ Public Login Route
