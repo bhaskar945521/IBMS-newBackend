@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // ✅ Import controller functions
-const { register, login } = require('../Controllers/AuthController');
+const { register, login } = require('../Controllers/AuthController.js');
 
 // ✅ Import middlewares
 const verifyToken = require('../Middleware/verifyToken');
