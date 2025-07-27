@@ -7,11 +7,12 @@ const {
   getAllInvoices,
   searchInvoices,
   getInvoiceById,
-  sendInvoiceOnWhatsApp
+  sendInvoiceOnWhatsApp,
+  createInvoiceValidators
 } = require('../Controllers/InvoiceController');
 
 // ✅ Create Invoice
-router.post('/create', verifyToken, createInvoice);
+router.post('/create', verifyToken, createInvoiceValidators, createInvoice);
 
 // ✅ Get All Invoices (Invoice History)
 router.get('/all', verifyToken, getAllInvoices);

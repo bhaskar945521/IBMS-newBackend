@@ -8,11 +8,13 @@ const {
   getProducts,
   deleteProduct,
   updateProduct,
-  getProductById // ✅ Add this controller
+  getProductById,
+  addProductValidators,
+  updateProductValidators
 } = require('../Controllers/ProductController');
 
 // ✅ Create new product
-router.post('/add', verifyToken, addProduct);
+router.post('/add', verifyToken, addProductValidators, addProduct);
 
 // ✅ Get all products
 router.get('/all', verifyToken, getProducts);
@@ -35,7 +37,7 @@ router.get('/search', verifyToken, async (req, res) => {
 router.get('/:id', verifyToken, getProductById); // ✅ THIS was missing
 
 // ✅ Update product by ID
-router.put('/:id', verifyToken, updateProduct);
+router.put('/:id', verifyToken, updateProductValidators, updateProduct);
 
 // ✅ Delete product by ID
 router.delete('/:id', verifyToken, deleteProduct);

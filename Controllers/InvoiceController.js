@@ -5,9 +5,14 @@ const { MessageMedia } = require('whatsapp-web.js');
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
+const { body, validationResult } = require('express-validator');
 
 // ✅ Create Invoice
 const createInvoice = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { invoiceNumber, customer, items } = req.body;
 
@@ -184,6 +189,18 @@ ${invoice.items.map(item =>
 };
 
 // ✅ Export everything
+exports.createInvoiceValidators = [
+  body('invoiceNumber').trim().notEmpty().escape(),
+  body('customer.name').trim().notEmpty().escape(),
+  body('customer.phone').optional().trim().escape(),
+  body('items').isArray({ min: 1 }).withMessage('At least one item is required'),
+  body('items.*.name').trim().notEmpty().escape(),
+  body('items.*.quantity').isInt({ min: 1 }),
+  body('items.*.price').isFloat({ min: 0 }),
+  body('items.*.gst').optional().isInt({ min: 0, max: 100 }),
+  body('items.*.total').isFloat({ min: 0 }),
+];
+
 module.exports = {
   createInvoice,
   getAllInvoices,

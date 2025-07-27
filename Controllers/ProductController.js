@@ -1,9 +1,21 @@
 const Product = require('../Models/ProductModel');
+const { body, validationResult } = require('express-validator');
 
 // ➕ Add Product
+exports.addProductValidators = [
+  body('name').trim().notEmpty().withMessage('Name is required').escape(),
+  body('quantity').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
+  body('price').isFloat({ min: 0 }).withMessage('Price must be a non-negative number'),
+  body('gst').optional().isInt({ min: 0, max: 100 }).withMessage('GST must be between 0 and 100'),
+];
+
 exports.addProduct = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
-    const { name, quantity, stock, price, gst } = req.body;
+    const { name, quantity, price, gst } = req.body;
 
     // Basic validation
     if (!name || !quantity || !price) {
@@ -64,7 +76,18 @@ exports.deleteProduct = async (req, res) => {
 };
 
 // ✏️ Update Product
+exports.updateProductValidators = [
+  body('name').optional().trim().notEmpty().escape(),
+  body('quantity').optional().isInt({ min: 0 }),
+  body('price').optional().isFloat({ min: 0 }),
+  body('gst').optional().isInt({ min: 0, max: 100 }),
+];
+
 exports.updateProduct = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { name, quantity, price, gst } = req.body;
     const updated = await Product.findByIdAndUpdate(
