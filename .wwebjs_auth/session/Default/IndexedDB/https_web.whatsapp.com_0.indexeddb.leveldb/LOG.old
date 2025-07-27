@@ -1,0 +1,25 @@
+2025/07/27-12:37:18.111 4688 Reusing MANIFEST C:\Users\mallb\OneDrive\Desktop\IBMS\backend\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/27-12:37:18.111 4688 Recovering log #880
+2025/07/27-12:37:18.155 4688 Reusing old log C:\Users\mallb\OneDrive\Desktop\IBMS\backend\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000880.log 
+2025/07/27-12:37:20.755 4954 Level-0 table #891: started
+2025/07/27-12:37:20.766 4954 Level-0 table #891: 413886 bytes OK
+2025/07/27-12:37:20.767 4954 Delete type=0 #880
+2025/07/27-12:37:20.767 4954 Manual compaction at level-0 from '\x00`\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00a\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/27-12:37:22.156 24fc Compacting 1@1 + 7@2 files
+2025/07/27-12:37:22.238 24fc Generated table #892@1: 81686 keys, 2230364 bytes
+2025/07/27-12:37:22.329 24fc Generated table #893@1: 84046 keys, 2279961 bytes
+2025/07/27-12:37:22.378 24fc Generated table #894@1: 26191 keys, 2186101 bytes
+2025/07/27-12:37:22.394 24fc Generated table #895@1: 2953 keys, 2146776 bytes
+2025/07/27-12:37:22.449 24fc Generated table #896@1: 26528 keys, 2233358 bytes
+2025/07/27-12:37:22.469 24fc Generated table #897@1: 4087 keys, 2120279 bytes
+2025/07/27-12:37:22.537 24fc Generated table #898@1: 68536 keys, 2202791 bytes
+2025/07/27-12:37:22.537 24fc Compacted 1@1 + 7@2 files => 15399630 bytes
+2025/07/27-12:37:22.537 24fc compacted to: files[ 0 0 7 0 0 0 0 ]
+2025/07/27-12:37:22.538 24fc Delete type=2 #882
+2025/07/27-12:37:22.538 24fc Delete type=2 #883
+2025/07/27-12:37:22.538 24fc Delete type=2 #884
+2025/07/27-12:37:22.538 24fc Delete type=2 #885
+2025/07/27-12:37:22.538 24fc Delete type=2 #886
+2025/07/27-12:37:22.538 24fc Delete type=2 #887
+2025/07/27-12:37:22.538 24fc Delete type=2 #888
+2025/07/27-12:37:22.538 24fc Delete type=2 #891
