@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../Models/ProductModel');
+const verifyToken = require('../Middleware/VerifyToken.js');
 
 const {
   addProduct,
@@ -11,22 +12,13 @@ const {
 } = require('../Controllers/ProductController');
 
 // ✅ Create new product
-router.post('/add', addProduct);
+router.post('/add', verifyToken, addProduct);
 
 // ✅ Get all products
-router.get('/all', getProducts);
-
-// ✅ Get product by ID (for edit page)
-router.get('/:id', getProductById); // ✅ THIS was missing
-
-// ✅ Update product by ID
-router.put('/:id', updateProduct);
-
-// ✅ Delete product by ID
-router.delete('/:id', deleteProduct);
+router.get('/all', verifyToken, getProducts);
 
 // ✅ Search products by name (case-insensitive)
-router.get('/search', async (req, res) => {
+router.get('/search', verifyToken, async (req, res) => {
   try {
     const query = req.query.q || '';
     const products = await Product.find({
@@ -38,5 +30,14 @@ router.get('/search', async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
+// ✅ Get product by ID (for edit page)
+router.get('/:id', verifyToken, getProductById); // ✅ THIS was missing
+
+// ✅ Update product by ID
+router.put('/:id', verifyToken, updateProduct);
+
+// ✅ Delete product by ID
+router.delete('/:id', verifyToken, deleteProduct);
 
 module.exports = router;

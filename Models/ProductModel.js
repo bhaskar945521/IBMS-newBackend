@@ -19,6 +19,11 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     default: 'General'
+  },
+  gst: {
+    type: Number,
+    default: 18,
+    min: 0
   }
 }, { timestamps: true });
 

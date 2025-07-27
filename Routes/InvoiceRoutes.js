@@ -1,6 +1,7 @@
 // routes/InvoiceRoutes.js
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../Middleware/VerifyToken.js');
 const {
   createInvoice,
   getAllInvoices,
@@ -10,18 +11,18 @@ const {
 } = require('../Controllers/InvoiceController');
 
 // ✅ Create Invoice
-router.post('/create', createInvoice);
+router.post('/create', verifyToken, createInvoice);
 
 // ✅ Get All Invoices (Invoice History)
-router.get('/all', getAllInvoices);
+router.get('/all', verifyToken, getAllInvoices);
 
 // ✅ Search Invoices
-router.get('/search', searchInvoices);
+router.get('/search', verifyToken, searchInvoices);
 
 // ✅ Get Invoice by ID (for viewing full invoice)
-router.get('/:id', getInvoiceById);
+router.get('/:id', verifyToken, getInvoiceById);
 
 // ✅ Send Invoice via WhatsApp
-router.post('/send-whatsapp', sendInvoiceOnWhatsApp);
+router.post('/send-whatsapp', verifyToken, sendInvoiceOnWhatsApp);
 
 module.exports = router;

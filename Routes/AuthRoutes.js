@@ -5,7 +5,7 @@ const router = express.Router();
 const { register, login } = require('../Controllers/AuthController');
 
 // ✅ Import middlewares
-const verifyToken = require('../Middleware/VerifyToken');
+const verifyToken = require('../Middleware/VerifyToken.js');
 const IsAdmin = require('../Middleware/IsAdmin');
 
 // ✅ Public Login Route

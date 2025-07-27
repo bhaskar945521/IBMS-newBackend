@@ -1,4 +1,4 @@
-const Product = require('../Models/Product');
+const Product = require('../Models/ProductModel');
 
 // ➕ Add Product
 exports.addProduct = async (req, res) => {
@@ -14,7 +14,6 @@ exports.addProduct = async (req, res) => {
       name, 
       quantity, 
       price, 
-      stock: quantity,
       gst: gst || 18 // Default to 18% if not provided
     });
     await product.save();
