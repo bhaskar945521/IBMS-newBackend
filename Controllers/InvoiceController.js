@@ -189,7 +189,7 @@ ${invoice.items.map(item =>
 };
 
 // ✅ Export everything
-exports.createInvoiceValidators = [
+module.exports.createInvoiceValidators = [
   body('invoiceNumber').trim().notEmpty().escape(),
   body('customer.name').trim().notEmpty().escape(),
   body('customer.phone').optional().trim().escape(),
@@ -207,5 +207,4 @@ module.exports = {
   searchInvoices,
   getInvoiceById,
   sendInvoiceOnWhatsApp,
-  createInvoiceValidators
 };
