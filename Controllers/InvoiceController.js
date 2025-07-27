@@ -7,6 +7,18 @@ const path = require('path');
 const fs = require('fs');
 const { body, validationResult } = require('express-validator');
 
+const createInvoiceValidators = [
+  body('invoiceNumber').trim().notEmpty().escape(),
+  body('customer.name').trim().notEmpty().escape(),
+  body('customer.phone').optional().trim().escape(),
+  body('items').isArray({ min: 1 }).withMessage('At least one item is required'),
+  body('items.*.name').trim().notEmpty().escape(),
+  body('items.*.quantity').isInt({ min: 1 }),
+  body('items.*.price').isFloat({ min: 0 }),
+  body('items.*.gst').optional().isInt({ min: 0, max: 100 }),
+  body('items.*.total').isFloat({ min: 0 }),
+];
+
 // ✅ Create Invoice
 const createInvoice = async (req, res) => {
   const errors = validationResult(req);
