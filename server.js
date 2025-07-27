@@ -12,7 +12,7 @@ const dashboardRoutes = require('./Routes/DashboardRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({origin: "https://ibms-bhaskar.netlify.app/login", credentials: true}));
 app.use(express.json());
 
 // Route registration
