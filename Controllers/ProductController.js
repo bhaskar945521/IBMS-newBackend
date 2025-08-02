@@ -10,7 +10,7 @@ exports.addProductValidators = [
   body('gst').optional().isInt({ min: 0, max: 100 }).withMessage('GST must be between 0 and 100'),
 ];
 
-// ➕ Add Product
+// ➕ Add Product with Duplicate Check (Update if exists)
 exports.addProduct = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -20,13 +20,25 @@ exports.addProduct = async (req, res) => {
   try {
     const { name, variant, quantity, price, gst, category } = req.body;
 
-    // 🔍 Duplicate check for name + variant
+    // 🔁 Check if product with same name + variant exists
     const existingProduct = await Product.findOne({ name, variant });
+
     if (existingProduct) {
-      return res.status(400).json({ error: 'Product with this name and variant already exists' });
+      existingProduct.quantity += Number(quantity);
+      existingProduct.price = Number(price);
+      existingProduct.gst = gst || existingProduct.gst;
+      existingProduct.category = category || existingProduct.category;
+
+      const updatedProduct = await existingProduct.save();
+
+      return res.status(200).json({
+        message: 'Product already exists — updated quantity',
+        product: updatedProduct
+      });
     }
 
-    const product = new Product({
+    // ➕ Create new product
+    const newProduct = new Product({
       name,
       variant,
       quantity,
@@ -35,16 +47,13 @@ exports.addProduct = async (req, res) => {
       category: category || 'General'
     });
 
-    await product.save();
+    await newProduct.save();
 
-    res.status(201).json({ message: 'Product added successfully', product });
+    res.status(201).json({ message: 'Product added successfully', product: newProduct });
 
   } catch (err) {
-    console.error('❌ Error adding product:', err.message);
-    if (err.code === 11000) {
-      return res.status(400).json({ error: 'Duplicate name and variant not allowed' });
-    }
-    res.status(500).json({ error: 'Add product failed' });
+    console.error('❌ Error in add/update product:', err.message);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -103,6 +112,7 @@ exports.updateProduct = async (req, res) => {
 
   try {
     const { name, variant, quantity, price, gst, category } = req.body;
+
     const updated = await Product.findByIdAndUpdate(
       req.params.id,
       { name, variant, quantity, price, gst, category },
