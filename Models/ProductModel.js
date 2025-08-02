@@ -6,6 +6,12 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  variant: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'Standard'  // e.g., '500ml', 'Tablet', 'Box', etc.
+  },
   price: {
     type: Number,
     required: true,
@@ -26,5 +32,8 @@ const productSchema = new mongoose.Schema({
     min: 0
   }
 }, { timestamps: true });
+
+// ✅ Make combination of name + variant unique
+productSchema.index({ name: 1, variant: 1 }, { unique: true });
 
 module.exports = mongoose.model('Product', productSchema);

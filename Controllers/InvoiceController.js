@@ -32,8 +32,10 @@ const createInvoice = async (req, res) => {
       return res.status(400).json({ message: 'Missing required invoice fields' });
     }
 
-    const gst = parseFloat((items.reduce((acc, item) => acc + item.total, 0) * 0.18).toFixed(2));
-    const grandTotal = items.reduce((acc, item) => acc + item.total, 0) + gst;
+    // Calculate GST from frontend data or calculate it here
+    const subtotal = items.reduce((acc, item) => acc + item.total, 0);
+    const gst = req.body.gst || parseFloat((subtotal * 0.18).toFixed(2));
+    const grandTotal = subtotal + gst;
 
     const invoice = new Invoice({
       invoiceNumber,
@@ -43,7 +45,19 @@ const createInvoice = async (req, res) => {
       grandTotal
     });
 
-    await invoice.save();
+    try {
+      await invoice.save();
+    } catch (saveErr) {
+      if (saveErr.code === 11000) {
+        // Duplicate key error - generate new invoice number
+        const newInvoiceNumber = `INV${Date.now()}${Math.floor(Math.random() * 1000)}`;
+        invoice.invoiceNumber = newInvoiceNumber;
+        await invoice.save();
+        console.log(`✅ Generated new invoice number: ${newInvoiceNumber}`);
+      } else {
+        throw saveErr;
+      }
+    }
 
     // ✅ Update product quantities after invoice is saved
     for (const item of items) {
