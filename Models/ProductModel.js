@@ -33,7 +33,4 @@ const productSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// ✅ Make combination of name + variant unique
-productSchema.index({ name: 1, variant: 1 }, { unique: true });
-
 module.exports = mongoose.model('Product', productSchema);
