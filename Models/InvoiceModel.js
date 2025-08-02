@@ -13,6 +13,7 @@ const customerSchema = new mongoose.Schema({
 }, { _id: false });
 
 const invoiceSchema = new mongoose.Schema({
+  serialNo: { type: String, default: null }, // Add this field to avoid duplicate key error
   invoiceNumber: { type: String, required: true, unique: true },
   customer: { type: customerSchema, required: true },
   items: { type: [itemSchema], required: true },

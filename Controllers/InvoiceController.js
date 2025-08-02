@@ -38,6 +38,7 @@ const createInvoice = async (req, res) => {
     const grandTotal = subtotal + gst;
 
     const invoice = new Invoice({
+      serialNo: `SN${Date.now()}`, // Generate unique serial number
       invoiceNumber,
       customer,
       items,
@@ -49,11 +50,13 @@ const createInvoice = async (req, res) => {
       await invoice.save();
     } catch (saveErr) {
       if (saveErr.code === 11000) {
-        // Duplicate key error - generate new invoice number
-        const newInvoiceNumber = `INV${Date.now()}${Math.floor(Math.random() * 1000)}`;
-        invoice.invoiceNumber = newInvoiceNumber;
+        // Duplicate key error - generate new invoice number and serial number
+        const timestamp = Date.now();
+        const random = Math.floor(Math.random() * 1000);
+        invoice.invoiceNumber = `INV${timestamp}${random}`;
+        invoice.serialNo = `SN${timestamp}${random}`;
         await invoice.save();
-        console.log(`✅ Generated new invoice number: ${newInvoiceNumber}`);
+        console.log(`✅ Generated new invoice number: ${invoice.invoiceNumber}`);
       } else {
         throw saveErr;
       }
